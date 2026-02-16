@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Atelier — Jauge Vent Marseille</title>
+
+  <script src="https://www.gstatic.com/charts/loader.js"></script>
+
+  <style>
+    body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; margin: 24px; }
+    .wrap { max-width: 900px; margin: 0 auto; }
+    .card { background:#fff; border:1px solid #eee; border-radius:14px; padding:18px; box-shadow:0 10px 25px rgba(0,0,0,.06); }
+    #chart { width: 100%; height: 360px; }
+    #status { margin-top: 12px; white-space: pre-wrap; color:#444; }
+    .meta { color:#666; margin-top: 6px; }
+    button { margin-top: 14px; padding: 10px 12px; border-radius: 10px; border: 1px solid #ddd; background:#111; color:#fff; cursor:pointer; }
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+    <h1>Atelier — Vent à Marseille (Jauge)</h1>
+    <p class="meta">Source : Open-Meteo • Indicateur : wind_speed_10m (km/h) • Graphique : Google Gauge</p>
+
+    <div class="card">
+      <div id="chart"></div>
+      <div id="status"></div>
+      <button onclick="refresh()">Rafraîchir</button>
+    </div>
+  </div>
+
+  <script>
+    google.charts.load('current', { packages: ['gauge'] });
+    google.charts.setOnLoadCallback(init);
+
+    let chart, data, options;
+
+    async function init() {
+      data = google.visualization.arrayToDataTable([
+        ['Label', 'Value'],
+        ['Vent', 0]
+      ]);
+
+      options = {
+        min: 0,
+        max: 120,
+        redFrom: 80, redTo: 120,
+        yellowFrom: 40, yellowTo: 80,
+        minorTicks: 5
+      };
+
+      chart = new google.visualization.Gauge(document.getElementById('chart'));
+      chart.draw(data, options);
+
+      await refresh();
+    }
+
+    async function refresh() {
+      try {
+        const res = await fetch('/marseille_wind_now', { headers: { 'Accept': 'application/json' } });
+        if (!res.ok) throw new Error(`HTTP ${res.status} sur /marseille_wind_now`);
+        const json = await res.json();
+
+        const v = Number(json.value);
+        if (!Number.isFinite(v)) throw new Error("Valeur wind_speed_10m invalide");
+
+        data.setValue(0, 1, v);
+        chart.draw(data, options);
+
+        document.getElementById('status').textContent =
+          `OK — Vent à ${json.city}: ${v} ${json.unit} (données /marseille_wind_now)`;
+      } catch (e) {
+        document.getElementById('status').textContent = "Erreur: " + (e?.message || e);
+        console.error(e);
+      }
+    }
+  </script>
+</body>
+</html>

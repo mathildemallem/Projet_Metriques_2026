@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Contact</title>
+  <style>
+    :root{
+      --bg1:#0b1220;
+      --bg2:#0f1b33;
+      --card: rgba(255,255,255,.08);
+      --stroke: rgba(255,255,255,.14);
+      --text: rgba(255,255,255,.92);
+      --muted: rgba(255,255,255,.65);
+      --accent:#7c5cff;
+      --accent2:#20e3b2;
+      --shadow: 0 18px 60px rgba(0,0,0,.45);
+      --radius: 20px;
+    }
+
+    *{ box-sizing:border-box; }
+    body{
+      margin:0;
+      min-height:100vh;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Apple Color Emoji","Segoe UI Emoji";
+      color: var(--text);
+      background: radial-gradient(1000px 600px at 20% 10%, rgba(124,92,255,.35), transparent 60%),
+                  radial-gradient(800px 500px at 90% 20%, rgba(32,227,178,.25), transparent 55%),
+                  linear-gradient(135deg, var(--bg1), var(--bg2));
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding: 28px 14px;
+    }
+
+    .wrap{
+      width: min(980px, 100%);
+      display:grid;
+      grid-template-columns: 1.05fr .95fr;
+      gap: 18px;
+    }
+
+    .panel{
+      background: var(--card);
+      border: 1px solid var(--stroke);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(10px);
+      overflow:hidden;
+    }
+
+    .hero{
+      padding: 26px 26px 22px;
+      position:relative;
+    }
+    .badge{
+      display:inline-flex;
+      gap:10px;
+      align-items:center;
+      padding: 8px 12px;
+      border-radius: 999px;
+      border: 1px solid var(--stroke);
+      background: rgba(255,255,255,.06);
+      color: var(--muted);
+      font-size: 13px;
+      letter-spacing:.2px;
+    }
+    .dot{
+      width:10px;height:10px;border-radius:999px;
+      background: linear-gradient(45deg, var(--accent), var(--accent2));
+      box-shadow: 0 0 22px rgba(124,92,255,.6);
+    }
+    h1{
+      margin: 14px 0 8px;
+      font-size: 34px;
+      line-height: 1.1;
+    }
+    p{
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.55;
+      font-size: 15px;
+    }
+
+    .info{
+      padding: 0 26px 26px;
+      display:grid;
+      gap:12px;
+    }
+    .chip{
+      display:flex;
+      align-items:flex-start;
+      gap: 12px;
+      padding: 14px 14px;
+      border: 1px solid var(--stroke);
+      border-radius: 16px;
+      background: rgba(255,255,255,.05);
+    }
+    .icon{
+      width: 36px; height: 36px;
+      border-radius: 12px;
+      background: rgba(124,92,255,.18);
+      border: 1px solid rgba(124,92,255,.35);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      flex: 0 0 auto;
+      font-size: 18px;
+    }
+    .chip b{ display:block; margin-bottom:4px; }
+    .chip span{ color: var(--muted); font-size: 14px; line-height:1.4; }
+
+    .form{
+      padding: 22px 22px 22px;
+    }
+    .form h2{
+      margin: 0 0 6px;
+      font-size: 20px;
+    }
+    .form small{
+      display:block;
+      color: var(--muted);
+      margin-bottom: 14px;
+    }
+
+    form{
+      display:grid;
+      gap: 12px;
+    }
+    .row{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    label{
+      font-size: 13px;
+      color: var(--muted);
+      display:block;
+      margin: 0 0 6px;
+    }
+    input, textarea{
+      width: 100%;
+      border-radius: 14px;
+      border: 1px solid var(--stroke);
+      background: rgba(10,16,30,.35);
+      color: var(--text);
+      padding: 12px 12px;
+      outline: none;
+      transition: border .2s, transform .08s, box-shadow .2s;
+      font-size: 14px;
+    }
+    textarea{ min-height: 130px; resize: vertical; }
+    input:focus, textarea:focus{
+      border-color: rgba(124,92,255,.7);
+      box-shadow: 0 0 0 4px rgba(124,92,255,.18);
+    }
+
+    .actions{
+      display:flex;
+      gap: 10px;
+      align-items:center;
+      margin-top: 4px;
+    }
+    button{
+      border: 0;
+      cursor: pointer;
+      padding: 12px 14px;
+      border-radius: 14px;
+      font-weight: 700;
+      letter-spacing: .2px;
+      color: #0b1220;
+      background: linear-gradient(45deg, var(--accent), var(--accent2));
+      box-shadow: 0 12px 30px rgba(124,92,255,.25);
+      transition: transform .08s ease;
+    }
+    button:active{ transform: translateY(1px); }
+
+    .hint{
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.4;
+    }
+
+    .toast{
+      margin: 0 0 12px;
+      padding: 12px 12px;
+      border-radius: 16px;
+      border: 1px solid rgba(32,227,178,.35);
+      background: rgba(32,227,178,.10);
+      color: rgba(255,255,255,.92);
+    }
+
+    @media (max-width: 860px){
+      .wrap{ grid-template-columns: 1fr; }
+      .row{ grid-template-columns: 1fr; }
+      h1{ font-size: 30px; }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+    <!-- Colonne gauche : “vitrine” -->
+    <section class="panel">
+      <div class="hero">
+        <div class="badge"><span class="dot"></span> Page de contact • Atelier API</div>
+        <h1>Écrivez-moi un message ✨</h1>
+        <p>
+          Une petite question, une idée, un retour ? Remplissez le formulaire à droite.
+          <br/>Dans cet exercice, rien n’est enregistré (pas de base de données).
+        </p>
+      </div>
+
+      <div class="info">
+        <div class="chip">
+          <div class="icon">⚡</div>
+          <div>
+            <b>Rapide & clair</b>
+            <span>Un formulaire simple : nom, prénom, message — et une confirmation visuelle.</span>
+          </div>
+        </div>
+
+        <div class="chip">
+          <div class="icon">🎨</div>
+          <div>
+            <b>Design “glass”</b>
+            <span>Style moderne, fond en dégradé, cartes translucides, responsive mobile.</span>
+          </div>
+        </div>
+
+        <div class="chip">
+          <div class="icon">🧪</div>
+          <div>
+            <b>Mode démo</b>
+            <span>Soumission en POST → affichage “merci” (sans stockage).</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Colonne droite : formulaire -->
+    <aside class="panel form">
+      <h2>Formulaire</h2>
+      <small>Remplis puis clique sur “Envoyer”.</small>
+
+      {% if sent %}
+        <div class="toast">
+          ✅ Merci {% if prenom or nom %}<b>{{ prenom }} {{ nom }}</b>{% else %}pour votre message{% endif %} !
+          <br/>Votre demande a bien été prise en compte (démo : aucun enregistrement).
+        </div>
+      {% endif %}
+
+      <form method="POST" action="/contact">
+        <div class="row">
+          <div>
+            <label for="prenom">Prénom</label>
+            <input id="prenom" name="prenom" type="text" placeholder="Ex : Mathilde " required />
+          </div>
+          <div>
+            <label for="nom">Nom</label>
+            <input id="nom" name="nom" type="text" placeholder="Ex : Mallem" required />
+          </div>
+        </div>
+
+        <div>
+          <label for="message">Message</label>
+          <textarea id="message" name="message" placeholder="Écrivez votre message ici..." required></textarea>
+        </div>
+
+        <div class="actions">
+          <button type="submit">Envoyer</button>
+          <div class="hint">Astuce : teste aussi sur mobile 😉</div>
+        </div>
+      </form>
+    </aside>
+  </div>
+</body>
+</html>
